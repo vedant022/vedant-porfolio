@@ -1,0 +1,492 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 240 10% 4%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
+
+    --primary: 224 82% 56%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 6% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 4% 46%;
+
+    --accent: 262 83% 63%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 240 5.9% 10%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 245 50% 10%;
+    --foreground: 0 0% 98%;
+
+    --card: 240 10% 8%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 240 10% 8%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 272 76% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 65%;
+
+    --accent: 272 76% 53%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 4% 25%;
+    --input: 240 4% 25%;
+    --ring: 240 5% 65%;
+  }
+
+  * {
+    @apply border-border selection:bg-accent/20 selection:text-accent dark:selection:bg-dark-purple-accent/30 dark:selection:text-white;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background text-foreground dark:bg-gradient-to-b dark:from-dark-bg-primary dark:to-dark-bg-secondary dark:text-dark-text;
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02", "cv03";
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Animated background elements - replaced the vertical line with subtle gradient */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(120, 119, 198, 0.1) 0%, transparent 25%),
+      radial-gradient(circle at 80% 80%, rgba(120, 119, 198, 0.08) 0%, transparent 20%),
+      radial-gradient(circle at 60% 10%, rgba(255, 145, 145, 0.05) 0%, transparent 35%);
+    z-index: -2;
+    pointer-events: none;
+    animation: gradientShift 20s ease infinite alternate;
+  }
+
+  /* Animated floating particles - adjusted opacity and positions */
+  body::after {
+    content: "";
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-image: 
+      radial-gradient(circle at 85% 15%, rgba(150, 150, 255, 0.15) 2px, transparent 0),
+      radial-gradient(circle at 25% 65%, rgba(150, 150, 255, 0.1) 3px, transparent 0),
+      radial-gradient(circle at 65% 70%, rgba(120, 150, 255, 0.12) 1.5px, transparent 0),
+      radial-gradient(circle at 15% 25%, rgba(120, 150, 255, 0.08) 2.5px, transparent 0),
+      radial-gradient(circle at 75% 45%, rgba(150, 180, 255, 0.15) 1px, transparent 0);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.5;
+    animation: particlesFloat 25s linear infinite;
+  }
+
+  .dark body::before {
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(160, 32, 240, 0.12) 0%, transparent 25%),
+      radial-gradient(circle at 80% 80%, rgba(120, 32, 200, 0.10) 0%, transparent 20%),
+      radial-gradient(circle at 60% 10%, rgba(200, 65, 245, 0.08) 0%, transparent 35%);
+    animation: gradientShiftDark 20s ease infinite alternate;
+  }
+
+  .dark body::after {
+    background-image: 
+      radial-gradient(circle at 85% 15%, rgba(180, 130, 255, 0.2) 2px, transparent 0),
+      radial-gradient(circle at 25% 65%, rgba(160, 120, 255, 0.12) 3px, transparent 0),
+      radial-gradient(circle at 65% 70%, rgba(200, 140, 255, 0.15) 1.5px, transparent 0),
+      radial-gradient(circle at 15% 25%, rgba(140, 100, 255, 0.1) 2.5px, transparent 0),
+      radial-gradient(circle at 75% 45%, rgba(220, 180, 255, 0.2) 1px, transparent 0);
+    opacity: 0.3;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  /* Hide default cursor when custom cursor is active */
+  @media (min-width: 768px) {
+    * {
+      cursor: none !important;
+    }
+  }
+
+  /* Background animations */
+  @keyframes gradientShift {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 50% 50%;
+    }
+    100% {
+      background-position: 100% 100%;
+    }
+  }
+
+  @keyframes gradientShiftDark {
+    0% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 50% 50%;
+    }
+    100% {
+      background-position: 100% 100%;
+    }
+  }
+
+  @keyframes particlesFloat {
+    0% {
+      background-position: 0% 0%;
+    }
+    25% {
+      background-position: 3% 5%;
+    }
+    50% {
+      background-position: 5% 10%;
+    }
+    75% {
+      background-position: 3% 5%;
+    }
+    100% {
+      background-position: 0% 0%;
+    }
+  }
+
+  /* Cursor pulse animation */
+  @keyframes cursorPulse {
+    0% {
+      opacity: 0.3;
+      transform: translate(-50%, -50%) scale(0.8);
+    }
+    50% {
+      opacity: 0.5;
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+      opacity: 0.3;
+      transform: translate(-50%, -50%) scale(0.8);
+    }
+  }
+
+  /* Floating elements animation */
+  @keyframes float {
+    0% {
+      transform: translateY(0) translateX(0) rotate(0);
+    }
+    25% {
+      transform: translateY(-20px) translateX(10px) rotate(5deg);
+    }
+    50% {
+      transform: translateY(0) translateX(15px) rotate(0);
+    }
+    75% {
+      transform: translateY(20px) translateX(5px) rotate(-5deg);
+    }
+    100% {
+      transform: translateY(0) translateX(0) rotate(0);
+    }
+  }
+
+  /* Hero section with floating elements */
+  .hero-section {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .floating-element {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.2;
+  }
+
+  .floating-element-1 {
+    top: 15%;
+    left: 10%;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle, rgba(120, 119, 198, 0.3), transparent 70%);
+    animation: float 15s ease-in-out infinite;
+  }
+
+  .floating-element-2 {
+    top: 60%;
+    left: 75%;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(120, 119, 198, 0.2), transparent 70%);
+    animation: float 18s ease-in-out infinite reverse;
+  }
+
+  .floating-element-3 {
+    top: 25%;
+    left: 85%;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 145, 145, 0.2), transparent 70%);
+    animation: float 12s ease-in-out infinite;
+    animation-delay: 2s;
+  }
+
+  .floating-element-4 {
+    top: 70%;
+    left: 15%;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(255, 145, 145, 0.15), transparent 70%);
+    animation: float 20s ease-in-out infinite reverse;
+    animation-delay: 4s;
+  }
+
+  .floating-element-5 {
+    top: 40%;
+    left: 50%;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(120, 119, 198, 0.1), transparent 70%);
+    animation: float 25s ease-in-out infinite;
+    animation-delay: 6s;
+  }
+
+  .dark .floating-element-1 {
+    background: radial-gradient(circle, rgba(160, 32, 240, 0.25), transparent 70%);
+  }
+
+  .dark .floating-element-2 {
+    background: radial-gradient(circle, rgba(120, 32, 200, 0.2), transparent 70%);
+  }
+
+  .dark .floating-element-3 {
+    background: radial-gradient(circle, rgba(200, 65, 245, 0.25), transparent 70%);
+  }
+
+  .dark .floating-element-4 {
+    background: radial-gradient(circle, rgba(180, 65, 245, 0.2), transparent 70%);
+  }
+
+  .dark .floating-element-5 {
+    background: radial-gradient(circle, rgba(160, 32, 240, 0.15), transparent 70%);
+  }
+
+  /* Hero section shine effect */
+  .hero-section::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: rotate(30deg);
+    pointer-events: none;
+    z-index: 1;
+    animation: heroShine 8s ease-in-out infinite;
+  }
+
+  .dark .hero-section::after {
+    background: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(160, 32, 240, 0.2) 50%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
+  @keyframes heroShine {
+    0% {
+      transform: rotate(30deg) translate(-100%, -100%);
+    }
+    100% {
+      transform: rotate(30deg) translate(100%, 100%);
+    }
+  }
+
+  /* Add a blink animation for the cursor */
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .animate-blink {
+    animation: blink 0.7s infinite;
+  }
+}
+
+@layer utilities {
+  /* Blur effect for glassmorphism */
+  .glass {
+    @apply backdrop-blur-lg bg-white/40 border border-white/20 shadow-sm;
+  }
+  
+  .glass-dark {
+    @apply backdrop-blur-lg bg-black/40 border border-white/10 shadow-md;
+  }
+  
+  /* Text gradient effects */
+  .text-gradient-blue {
+    @apply bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent;
+  }
+  
+  .text-gradient-purple {
+    @apply bg-gradient-to-r from-purple-600 to-purple-400 bg-clip-text text-transparent;
+  }
+
+  .dark .text-gradient-blue {
+    @apply bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent;
+  }
+  
+  .dark .text-gradient-purple {
+    @apply bg-gradient-to-r from-purple-400 to-purple-300 bg-clip-text text-transparent;
+  }
+  
+  /* Animation styles */
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+  
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+  
+  .animate-delay-400 {
+    animation-delay: 400ms;
+  }
+  
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+  
+  /* Interactive hover effect for links */
+  .hover-underline {
+    @apply relative after:absolute after:w-full after:scale-x-0 after:h-0.5 after:-bottom-1 after:left-0 after:bg-primary dark:after:bg-dark-purple-accent after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
+  }
+  
+  /* Scroll snap utilities */
+  .snap-container {
+    @apply snap-y snap-mandatory overflow-y-auto;
+    height: 100vh;
+  }
+  
+  .snap-section {
+    @apply snap-start h-screen;
+  }
+  
+  /* Smooth scrollbar */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Add animated card effects */
+  .animated-card {
+    @apply relative overflow-hidden transition-all duration-300 hover:shadow-lg;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+    transform-style: preserve-3d;
+    transform: perspective(1000px);
+  }
+
+  .dark .animated-card {
+    background: linear-gradient(135deg, rgba(160,32,240,0.1) 0%, rgba(100,20,150,0.05) 100%);
+  }
+
+  .animated-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(130deg, transparent 20%, rgba(255,255,255,0.2) 50%, transparent 80%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .dark .animated-card::before {
+    background: linear-gradient(130deg, transparent 20%, rgba(160,32,240,0.2) 50%, transparent 80%);
+  }
+
+  .animated-card:hover::before {
+    opacity: 1;
+    animation: cardShine 1.5s ease forwards;
+  }
+
+  @keyframes cardShine {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}
+
+#root {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  text-align: left;
+}
